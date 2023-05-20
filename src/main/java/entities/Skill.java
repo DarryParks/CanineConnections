@@ -1,11 +1,21 @@
 package entities;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Entity
 public class Skill {
+
+    @Id
+    @GeneratedValue()
     public int id;
     public String name;
+
+    @Lob
+    @Column(length = 1000000)
     public List<Dog> dogs;
 
 

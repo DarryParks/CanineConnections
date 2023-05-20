@@ -11,6 +11,7 @@ public class Dog {
     @GeneratedValue()
     public int id;
     public String name;
+
     @Lob
     @Column(length = 1000000)
     public String skill;
