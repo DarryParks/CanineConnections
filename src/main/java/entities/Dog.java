@@ -1,11 +1,18 @@
 package entities;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
 public class Dog {
 
+    @Id
+    @GeneratedValue()
     public int id;
     public String name;
+    @Lob
+    @Column(length = 1000000)
     public String skill;
     public List<Skill> skills;
 
