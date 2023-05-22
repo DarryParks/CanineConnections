@@ -1,6 +1,6 @@
-package entities;
+package restControllers;
 
-public class Main {
+public class CanineConnectionsApplication {
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }

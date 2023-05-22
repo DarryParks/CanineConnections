@@ -19,7 +19,7 @@ public class dog {
     @JsonIgnore
     @ManyToMany
     @JoinTable
-    public List<entities.skills> skills;
+    public List<skills> skills;
 
     public dog(int id, String name, String skill) {
         this.id = id;
