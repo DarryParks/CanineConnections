@@ -6,12 +6,12 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class dog {
+public class Dog {
 
     @Id
     @GeneratedValue()
     public int id;
-    public String name;
+    public String dogName;
 
     @Lob
     @Column(length = 1000000)
@@ -19,11 +19,11 @@ public class dog {
     @JsonIgnore
     @ManyToMany
     @JoinTable
-    public List<skills> skills;
+    public List<Skills> skills;
 
-    public dog(int id, String name, String skill) {
+    public Dog(int id, String dogName, String skill) {
         this.id = id;
-        this.name = name;
+        this.dogName = dogName;
         this.skill = skill;
     }
 
@@ -36,8 +36,8 @@ public class dog {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getDogName() {
+        return dogName;
     }
 
     public String getSkill() {
@@ -45,20 +45,20 @@ public class dog {
     }
 
 
-    public void addSkill(skills skills) {
+    public void addSkill(Skills skills) {
         this.skills.add(skills);
         skills.addDog(this);
 
     }
 
 
-    public List<skills> getSkills() {
+    public List<Skills> getSkills() {
         return skills;
     }
 
     @Override
     public String toString() {
-        return "Dog [id=" + id + ", name=" + name + "]";
+        return "Dog [id=" + id + ", name=" + dogName + "]";
     }
 
 

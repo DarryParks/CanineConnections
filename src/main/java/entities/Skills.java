@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @Entity
-public class skills {
+public class Skills {
 
     @Id
     @GeneratedValue()
@@ -20,17 +20,17 @@ public class skills {
     @JsonIgnore
     @ManyToMany
     @JoinTable
-    public List<dog> dogs;
+    public List<Dog> Dogs;
 
-    public skills(){
+    public Skills(){
 
     }
 
 
-    public skills(int id, String name) {
+    public Skills(int id, String name) {
         this.id = id;
         this.name = name;
-        this.dogs = new ArrayList<>();
+        this.Dogs = new ArrayList<>();
     }
 
     public int getId() {
@@ -49,18 +49,18 @@ public class skills {
         this.name = name;
     }
 
-    public void setDogs(List<dog> dogs) {
-        this.dogs = dogs;
+    public void setDogs(List<Dog> Dogs) {
+        this.Dogs = Dogs;
     }
 
 
-    public void addDog(dog dog) {
-        dogs.add(dog);
+    public void addDog(Dog dog) {
+        Dogs.add(dog);
         dog.addSkill(this);
     }
 
-    public List<dog> getDogs() {
-        return dogs;
+    public List<Dog> getDogs() {
+        return Dogs;
     }
 
     @Override

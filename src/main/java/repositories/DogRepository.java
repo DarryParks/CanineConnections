@@ -1,8 +1,8 @@
 package repositories;
 
-import entities.dog;
+import entities.Dog;
 import org.springframework.data.repository.CrudRepository;
 
 
-public interface DogRepository extends CrudRepository<dog, Long> {
+public interface DogRepository extends CrudRepository<Dog, Long> {
 }
