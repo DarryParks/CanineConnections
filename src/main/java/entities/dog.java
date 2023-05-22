@@ -1,11 +1,12 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-public class Dog {
+public class dog {
 
     @Id
     @GeneratedValue()
@@ -15,9 +16,12 @@ public class Dog {
     @Lob
     @Column(length = 1000000)
     public String skill;
-    public List<Skill> skills;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable
+    public List<entities.skills> skills;
 
-    public Dog(int id, String name, String skill) {
+    public dog(int id, String name, String skill) {
         this.id = id;
         this.name = name;
         this.skill = skill;
@@ -41,14 +45,14 @@ public class Dog {
     }
 
 
-    public void addSkill(Skill skill) {
-        skills.add(skill);
-        skill.addDog(this);
+    public void addSkill(skills skills) {
+        this.skills.add(skills);
+        skills.addDog(this);
 
     }
 
 
-    public List<Skill> getSkills() {
+    public List<skills> getSkills() {
         return skills;
     }
 
