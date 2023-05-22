@@ -3,8 +3,8 @@ package entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 
 @Entity
@@ -17,20 +17,27 @@ public class Skills {
 
     @Lob
     @Column(length = 1000000)
+    public String description;
+
+    @Lob
+    @Column(length = 1000000)
+    public Dog skills;
     @JsonIgnore
     @ManyToMany
     @JoinTable
-    public List<Dog> Dogs;
+    public Collection<Dog> dogCollection = new HashSet<>();
 
-    public Skills(){
+    public Skills() {
 
     }
 
 
-    public Skills(int id, String name) {
+    public Skills(int id, String name, String description, String skills) {
         this.id = id;
         this.name = name;
-        this.Dogs = new ArrayList<>();
+        this.description = description;
+
+
     }
 
     public int getId() {
@@ -49,19 +56,28 @@ public class Skills {
         this.name = name;
     }
 
-    public void setDogs(List<Dog> Dogs) {
-        this.Dogs = Dogs;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Collection<Dog> getDogCollection() {
+        return dogCollection;
+    }
+
+    public void setDogCollection(Collection<Dog> dogCollection) {
+        this.dogCollection = dogCollection;
+    }
+
+    public void setSkills(Dog skills) {
+        this.skills = skills;
     }
 
 
-    public void addDog(Dog dog) {
-        Dogs.add(dog);
-        dog.addSkill(this);
-    }
 
-    public List<Dog> getDogs() {
-        return Dogs;
-    }
 
     @Override
     public String toString() {
