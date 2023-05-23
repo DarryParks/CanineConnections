@@ -11,7 +11,7 @@ public class Dog {
 
     @Id
     @GeneratedValue()
-    public int id;
+    public Long id;
     public String name;
 
     @Lob
@@ -26,12 +26,12 @@ public class Dog {
     @JoinTable
     public Collection<Skills> dogSkills = new HashSet<>();
 
-    public Dog() {
+//    public Dog() {
+//
+//    }
 
-    }
 
-
-    public Dog(int id, String name, String description, String skills) {
+    public Dog(Long id, String name, String description, String skills) {
         this.id = id;
         this.description = description;
         this.name = name;
@@ -39,7 +39,7 @@ public class Dog {
     }
 
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

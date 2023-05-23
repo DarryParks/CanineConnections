@@ -27,9 +27,9 @@ public class Skills {
     @JoinTable
     public Collection<Dog> dogCollection = new HashSet<>();
 
-    public Skills() {
-
-    }
+//    public Skills() {
+//
+//    }
 
 
     public Skills(Long id, String name, String description, String skills) {
