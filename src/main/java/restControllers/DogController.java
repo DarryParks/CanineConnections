@@ -28,7 +28,7 @@ public class DogController {
         }
 
         @GetMapping("/api/dogs/{dog_id}")
-        public Dog getUserByID(final @PathVariable long dog_id) {
+        public Dog getDogByID(final @PathVariable long dog_id) {
             final Optional<Dog> perhapsDog = dogRepository.findById(dog_id);
             return perhapsDog
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find dog " + dog_id));

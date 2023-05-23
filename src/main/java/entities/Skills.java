@@ -12,7 +12,7 @@ public class Skills {
 
     @Id
     @GeneratedValue()
-    public int id;
+    public Long id;
     public String name;
 
     @Lob
@@ -32,7 +32,7 @@ public class Skills {
     }
 
 
-    public Skills(int id, String name, String description, String skills) {
+    public Skills(Long id, String name, String description, String skills) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,11 +40,11 @@ public class Skills {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

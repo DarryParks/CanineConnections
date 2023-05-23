@@ -24,7 +24,7 @@ public class SkillsController {
         }
 
         @GetMapping("/api/skills")
-        public Iterable<Skills> getRecipes() {
+        public Iterable<Skills> getSkills() {
             return skillsRepository.findAll();
         }
 
