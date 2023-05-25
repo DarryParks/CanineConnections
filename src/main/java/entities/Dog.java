@@ -60,10 +60,10 @@ public class Dog {
     }
 
 
-    @Override
-    public String toString() {
-        return "Dog [id=" + id + ", name=" + name + "]";
-    }
+//    @Override
+//    public String toString() {
+//        return "Dog [id=" + id + ", name=" + name + "]";
+//    }
 
 
 }

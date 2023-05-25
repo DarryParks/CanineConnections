@@ -20,6 +20,7 @@ public class DogController {
         @GetMapping("/api/dogs")
         public Iterable<Dog> getDogs() {
             return dogRepository.findAll();
+//            return "dogs.html";
         }
 
         @PostMapping("/api/dogs")
