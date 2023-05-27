@@ -2,8 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Dog SKills</title>
 </head>
+
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="dog.html">Dogs</a>
+    <a href="skills.html">Skills And Traits</a>
+    <a href="resources.html">Resources</a>
+    <a href="contacts.html">Contacts</a>
+</div>
+
 <body>
 
 <h1>Dog Generator: Based Upon Dogs Skills</h1>
@@ -25,6 +37,77 @@
 </div>
 
 <div id="dogs-container"></div>
+<script>
+    function generateDogs() {
+      const selectedSkills = Array.from(document.getElementById('skills').selectedOptions).map(option => option.value);
+
+      const dogs = [
+        {
+          breed: 'Bulldog',
+          image: 'Bulldog_inglese.jpg',
+          traits: ['Friendly', 'Calm', 'Protective'],
+          skills: ['guarding', 'obedience']
+        },
+        {
+          breed: 'Labrador Retriever',
+          image: 'Article_Allergies_LabradorRetrievers.jpg',
+          traits: ['Intelligent', 'Friendly', 'Energetic'],
+          skills: ['retrieving', 'assistance']
+        },
+        {
+          breed: 'German Shepherd',
+          image: 'Article_Allergies_GermanShepherds.jpg',
+          traits: ['Loyal', 'Courageous', 'Intelligent'],
+          skills: ['tracking', 'protection']
+        },
+        {
+          breed: 'Poodle',
+          image: 'istockphoto-520646148-612x612.jpg',
+          traits: ['Intelligent', 'Active', 'Elegant'],
+          skills: ['agility', 'obedience']
+        },
+        {
+          breed: 'Golden Retriever',
+          image: 'golden-retriever_Shutterstock.jpg',
+          traits: ['Friendly', 'Intelligent', 'Gentle'],
+          skills: ['therapy', 'rescue']
+        }
+      ];
+
+      const matchingDogs = dogs.filter(dog => selectedSkills.every(skill => dog.skills.includes(skill)));
+
+      const dogsContainer = document.getElementById('dogs-container');
+      dogsContainer.innerHTML = '';
+
+      matchingDogs.forEach(dog => {
+        const dogCard = document.createElement('div');
+        dogCard.className = 'dog-card';
+
+        const heading = document.createElement('h2');
+        heading.textContent = dog.breed;
+        dogCard.appendChild(heading);
+
+        const image = document.createElement('img');
+        image.className = 'dog-image';
+        image.src = dog.image;
+        image.alt = dog.breed;
+        dogCard.appendChild(image);
+
+        const traits = document.createElement('p');
+        traits.textContent = 'Traits: ' + dog.traits.join(', ');
+        dogCard.appendChild(traits);
+
+        const skills = document.createElement('p');
+        skills.textContent = 'Skills: ' + dog.skills.join(', ');
+        dogCard.appendChild(skills);
+
+        dogsContainer.appendChild(dogCard);
+      });
+    }
+
+
+
+</script>
 
 </body>
 </html>
