@@ -6,5 +6,25 @@
 </head>
 <body>
 
+<h1>Dog Generator: Based Upon Dogs Skills</h1>
+
+<div>
+    <label for="skills">Select Dog Skills:</label>
+    <select id="skills" multiple>
+        <option value="guarding">Guarding</option>
+        <option value="obedience">Obedience</option>
+        <option value="retrieving">Retrieving</option>
+        <option value="assistance">Assistance Work</option>
+        <option value="tracking">Tracking</option>
+        <option value="protection">Protection Work</option>
+        <option value="agility">Agility</option>
+        <option value="therapy">Therapy Work</option>
+        <option value="rescue">Search and Rescue</option>
+    </select>
+    <button onclick="generateDogs()">Generate Dogs</button>
+</div>
+
+<div id="dogs-container"></div>
+
 </body>
 </html>

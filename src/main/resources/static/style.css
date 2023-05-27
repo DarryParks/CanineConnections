@@ -11,7 +11,10 @@ p{
 }
 
 body{
-   background-color: rgb(30, 206, 255);
+
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: rgb(30, 206, 255);
 }
 
 /* .imageOfDogs{
