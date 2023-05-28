@@ -45,3 +45,62 @@ body{
 }
 
 
+ .header {
+    background: linear-gradient(0deg, rgb(38, 83, 96) 0%, rgba(30, 206, 255) 100%);
+    text-align: center;
+
+    font-size: 50px;
+        font-style: normal;
+        text-shadow: 2px 2px floralwhite;
+    margin: 0;
+    margin-bottom: 32px;
+    padding: 16px 0;
+
+  }
+
+   h1 {
+
+       font-size: 50px;
+       font-style: normal;
+       text-shadow: 2px 2px floralwhite;
+        text-align: center;
+      }
+      .breed-list {
+        list-style: none;
+        padding: 0;
+      }
+      .breed-item {
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      .breed-item:hover {
+        text-decoration: underline;
+      }
+      .breed-details {
+        display: none;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin-top: 10px;
+      }
+      .breed-image {
+        max-width: 300px;
+        margin-bottom: 10px;
+      }
+
+     .temperament-buttons,
+         .traits-buttons {
+           margin-bottom: 20px;
+         }
+         .temperament-buttons button,
+         .traits-buttons button {
+           margin-right: 5px;
+         }
+         .dog-list {
+           list-style: none;
+           padding: 0;
+           display: flex;
+           flex-wrap: wrap;
+           justify-content: center;
+     }
+

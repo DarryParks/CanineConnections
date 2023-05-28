@@ -35,58 +35,111 @@
 </div>
 <body>
 
-<h1>Different Types of Dogs and Skill Sets</h1>
+<h1>Dog Breeds</h1>
 
-<div class="dog-card">
-    <h2>Bulldog</h2>
-    <img class="dog-image" src="Bulldog_inglese.jpg" alt="Bulldog">
-    <p>The Bulldog is a medium-sized breed known for its loose, wrinkled skin and distinctive pushed-in nose.</p>
-    <ul>
-        <li>Guarding</li>
-        <li>Obedience</li>
-    </ul>
-</div>
+<div id="breed-list"></div>
 
-<div class="dog-card">
-    <h2>Labrador Retriever</h2>
-    <img class="dog-image" src="Article_Allergies_LabradorRetrievers.jpg" alt="Labrador Retriever">
-    <p>The Labrador Retriever is a friendly and versatile breed known for its intelligence and willingness to please.</p>
-    <ul>
-        <li>Retrieving</li>
-        <li>Assistance Work</li>
-    </ul>
-</div>
 
-<div class="dog-card">
-    <h2>German Shepherd</h2>
-    <img class="dog-image" src="Article_Allergies_GermanShepherds.jpg" alt="German Shepherd">
-    <p>The German Shepherd is a highly intelligent and loyal breed often used in working roles such as police and service dogs.</p>
-    <ul>
-        <li>Tracking</li>
-        <li>Protection Work</li>
-    </ul>
-</div>
+<ul id="breed-list" class="breed-list"></ul>
 
-<div class="dog-card">
-    <h2>Poodle</h2>
-    <img class="dog-image" src="istockphoto-520646148-612x612.jpg" alt="Poodle">
-    <p>The Poodle is a highly intelligent and elegant breed known for its curly coat and versatility in various dog sports.</p>
-    <ul>
-        <li>Agility</li>
-        <li>Obedience</li>
-    </ul>
-</div>
+<div id="breed-details" class="breed-details"></div>
 
-<div class="dog-card">
-    <h2>Golden Retriever</h2>
-    <img class="dog-image" src="golden-retriever_Shutterstock.jpg" alt="Golden Retriever">
-    <p>The Golden Retriever is a friendly and gentle breed that is often used as a therapy or assistance dog due to its calm and reliable nature.</p>
-    <ul>
-        <li>Therapy Work</li>
-        <li>Search and Rescue</li>
-    </ul>
-</div>
+<script>
+    const breedListElement = document.getElementById('breed-list');
+    const breedDetailsElement = document.getElementById('breed-details');
 
-</body>
+    function showBreedDetails(breed) {
+      fetch(`https://api.thedogapi.com/v1/images/search?breed_id=${breed.id}`)
+        .then(response => response.json())
+        .then(data => {
+          const image = data[0].url;
+
+          breedDetailsElement.innerHTML = `
+            <h2>${breed.name}</h2>
+            <img class="breed-image" src="${image}" alt="${breed.name}">
+            <p><strong>Temperament:</strong> ${breed.temperament}</p>
+            <p><strong>Life Span:</strong> ${breed.life_span}</p>
+            <p><strong>Origin:</strong> ${breed.origin}</p>
+          `;
+
+          breedDetailsElement.style.display = 'block';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    fetch('https://api.thedogapi.com/v1/breeds')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(breed => {
+          const listItem = document.createElement('li');
+          listItem.className = 'breed-item';
+          listItem.textContent = breed.name;
+
+          listItem.addEventListener('click', () => {
+            showBreedDetails(breed);
+          });
+
+          breedListElement.appendChild(listItem);
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  </script>
+<!--<h2 class="header" >Select your Dog</h2>-->
+
+<!--&lt;!&ndash;<div class="dog-card">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>Bulldog</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <img class="dog-image" src="Bulldog_inglese.jpg" alt="Bulldog">&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>The Bulldog is a medium-sized breed known for its loose, wrinkled skin and distinctive pushed-in nose.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Guarding</li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Obedience</li>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="dog-card">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>Labrador Retriever</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <img class="dog-image" src="Article_Allergies_LabradorRetrievers.jpg" alt="Labrador Retriever">&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>The Labrador Retriever is a friendly and versatile breed known for its intelligence and willingness to please.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Retrieving</li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Assistance Work</li>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="dog-card">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>German Shepherd</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <img class="dog-image" src="Article_Allergies_GermanShepherds.jpg" alt="German Shepherd">&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>The German Shepherd is a highly intelligent and loyal breed often used in working roles such as police and service dogs.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Tracking</li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Protection Work</li>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="dog-card">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>Poodle</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <img class="dog-image" src="istockphoto-520646148-612x612.jpg" alt="Poodle">&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>The Poodle is a highly intelligent and elegant breed known for its curly coat and versatility in various dog sports.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Agility</li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Obedience</li>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="dog-card">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>Golden Retriever</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <img class="dog-image" src="golden-retriever_Shutterstock.jpg" alt="Golden Retriever">&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>The Golden Retriever is a friendly and gentle breed that is often used as a therapy or assistance dog due to its calm and reliable nature.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Therapy Work</li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li>Search and Rescue</li>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--</body>-->
 </body>
 </html>
