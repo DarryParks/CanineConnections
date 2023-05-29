@@ -16,7 +16,65 @@
     <a href="contacts.html">Contacts</a>
 </div>
 
-<body>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .resource-list {
+      list-style: none;
+      padding: 0;
+    }
+    .resource-item {
+      margin-bottom: 10px;
+    }
+    .resource-item a {
+      text-decoration: none;
+      color: #0366d6;
+      font-weight: bold;
+    }
+  </style>
 
+<body>
+<h1>Resources About Dogs</h1>
+
+<ul id="resource-list" class="resource-list">
+    <li class="resource-item">
+        <a href="https://www.akc.org/">American Kennel Club (AKC)</a>
+    </li>
+    <li class="resource-item">
+        <a href="https://www.aspca.org/pet-care/dog-care">ASPCA - Dog Care</a>
+    </li>
+    <li class="resource-item">
+        <a href="https://www.humanesociety.org/">The Humane Society - Dog Care</a>
+    </li>
+    <li class="resource-item">
+        <a href="https://www.akc.org/dog-breeds/">AKC - Dog Breeds</a>
+    </li>
+    <li class="resource-item">
+        <a href="https://www.petfinder.com/">Petfinder</a>
+    </li>
+</ul>
+
+<script>
+    const resourceListElement = document.getElementById('resource-list');
+    const resources = [
+      { name: 'American Kennel Club (AKC)', link: 'https://www.akc.org/' },
+      { name: 'ASPCA - Dog Care', link: 'https://www.aspca.org/pet-care/dog-care' },
+      { name: 'The Humane Society - Dog Care', link: 'https://www.humanesociety.org/' },
+      { name: 'AKC - Dog Breeds', link: 'https://www.akc.org/dog-breeds/' },
+      { name: 'Petfinder', link: 'https://www.petfinder.com/' }
+    ];
+
+    resources.forEach(resource => {
+      const resourceItem = document.createElement('li');
+      resourceItem.className = 'resource-item';
+
+      resourceListElement.appendChild(resourceItem);
+    });
+  </script>
 </body>
 </html>
