@@ -24,12 +24,12 @@ public class SkillsController {
         }
 
         @GetMapping("/api/skills")
-        public Iterable<Skills> getSkills() {
+        public Iterable<Skills> fetchAllSkills() {
             return skillsRepository.findAll();
         }
 
         @PostMapping("/api/dogs/{dogs_id}/skills")
-        public Skills postSkills(@PathVariable final long dog_id,
+        public Skills createSkills(@PathVariable final long dog_id,
                                  final @RequestBody Skills skills) {
             final Optional<Dog> perhapsDog = dogRepository.findById(dog_id);
             perhapsDog.orElseThrow(() ->
@@ -39,7 +39,7 @@ public class SkillsController {
         }
 
         @GetMapping("/api/skills/{skills_id}")
-        public Skills getSkillsByID(final @PathVariable long skills_id) {
+        public Skills fetchSkillsByID(final @PathVariable long skills_id) {
             final Optional<Skills> perhapsSkills = skillsRepository.findById(skills_id);
             return perhapsSkills
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find skills " + skills_id));

@@ -7,6 +7,40 @@
     <link rel="stylesheet" href="style.css">
     <title>Dog SKills</title>
 
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .temperament-buttons,
+    .traits-buttons {
+      margin-bottom: 20px;
+    }
+    .temperament-buttons button,
+    .traits-buttons button {
+      margin-right: 5px;
+    }
+    .dog-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .dog-item {
+      margin: 10px;
+      text-align: center;
+    }
+    .dog-item img {
+      width: 200px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+  </style>
+
 </head>
 
 <div class="navbar">
@@ -37,6 +71,95 @@
 <ul id="dog-list" class="dog-list"></ul>
 
 <script>
+    const temperamentButtons = document.querySelectorAll('.temperament-buttons button');
+    const traitsButtons = document.querySelectorAll('.traits-buttons button');
+    const dogListElement = document.getElementById('dog-list');
+
+    temperamentButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        button.classList.toggle('selected');
+        const selectedTemperaments = getSelectedTemperaments();
+        const selectedTraits = getSelectedTraits();
+        searchDogs(selectedTemperaments, selectedTraits);
+      });
+    });
+
+    traitsButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        button.classList.toggle('selected');
+        const selectedTemperaments = getSelectedTemperaments();
+        const selectedTraits = getSelectedTraits();
+        searchDogs(selectedTemperaments, selectedTraits);
+      });
+    });
+
+    function getSelectedTemperaments() {
+      const selectedTemperaments = [];
+      temperamentButtons.forEach(button => {
+        if (button.classList.contains('selected')) {
+          selectedTemperaments.push(button.dataset.temperament);
+        }
+      });
+      return selectedTemperaments;
+    }
+
+    function getSelectedTraits() {
+      const selectedTraits = [];
+      traitsButtons.forEach(button => {
+        if (button.classList.contains('selected')) {
+          selectedTraits.push(button.dataset.trait);
+        }
+      });
+      return selectedTraits;
+    }
+
+    function searchDogs(selectedTemperaments, selectedTraits) {
+      // Clear previous dog list
+      dogListElement.innerHTML = '';
+
+      // Get the data entered by the user
+      const userTemperaments = selectedTemperaments.join(',').toLowerCase();
+      const userTraits = selectedTraits.join(',').toLowerCase();
+
+      fetch(`https://api.thedogapi.com/v1/breeds`)
+        .then(response => response.json())
+        .then(dogs => {
+          // Filter dogs based on user-selected temperaments and traits
+          const filteredDogs = dogs.filter(dog => {
+            const dogTemperaments = dog.temperament ? dog.temperament.toLowerCase() : '';
+            const dogTraits = dog.bred_for ? dog.bred_for.toLowerCase() : '';
+
+            // Check if the dog's temperaments and traits match the user-selected ones
+            return selectedTemperaments.every(temperament => dogTemperaments.includes(temperament.toLowerCase())) &&
+              selectedTraits.every(trait => dogTraits.includes(trait.toLowerCase()));
+          });
+
+          // Display dog list
+          if (filteredDogs.length === 0) {
+            dogListElement.textContent = 'No dogs found with the specified temperament and traits.';
+            return;
+          }
+
+          filteredDogs.forEach(dog => {
+            const dogItem = document.createElement('li');
+            dogItem.className = 'dog-item';
+
+            const image = document.createElement('img');
+            image.src = dog.image.url;
+            image.alt = 'Dog Image';
+            dogItem.appendChild(image);
+
+            const name = document.createElement('p');
+            name.textContent = `Breed: ${dog.name}`;
+            dogItem.appendChild(name);
+
+            dogListElement.appendChild(dogItem);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   </script>
 </body>
 </html>
