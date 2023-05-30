@@ -15,13 +15,12 @@
     h1 {
       text-align: center;
     }
-    .temperament-buttons,
-    .traits-buttons {
+    .checkbox-group {
       margin-bottom: 20px;
     }
-    .temperament-buttons button,
-    .traits-buttons button {
-      margin-right: 5px;
+    .checkbox-group label {
+      display: block;
+      margin-bottom: 5px;
     }
     .dog-list {
       list-style: none;
@@ -33,125 +32,178 @@
     .dog-item {
       margin: 10px;
       text-align: center;
+      cursor: pointer;
     }
     .dog-item img {
       width: 200px;
       height: auto;
       margin-bottom: 10px;
     }
+
+    .dog-details {
+      display: none;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+      }
+
+        .dog-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
   </style>
 
 </head>
 
 <div class="navbar">
     <a href="index.html">Home</a>
-    <a href="dog.html">Dogs</a>
-    <a href="skills.html">Skills And Traits</a>
+    <a href="dog.html">Dog Breeds</a>
+    <a href="skills.html">Find Dogs By Skills And Temperament</a>
+    <a href="dogInformation.html">Submit And Add Information About Dogs</a>
     <a href="resources.html">Resources</a>
     <a href="contacts.html">Contacts</a>
 </div>
 
 <body>
-<h1>Related Dogs by Temperament and Traits</h1>
+<h1>Find Dogs By Skills And Temperament</h1>
 
-<div class="temperament-buttons">
-    <button type="button" data-temperament="Active">Active</button>
-    <button type="button" data-temperament="Friendly">Friendly</button>
-    <button type="button" data-temperament="Intelligent">Intelligent</button>
-    <button type="button" data-temperament="Playful">Playful</button>
+<div class="checkbox-group">
+    <label><input type="checkbox" value="loyal"> Loyal</label>
+    <label><input type="checkbox" value="intelligent"> Intelligent</label>
+    <label><input type="checkbox" value="active"> Active</label>
 </div>
 
-<div class="traits-buttons">
-    <button type="button" data-trait="Cute">Cute</button>
-    <button type="button" data-trait="Energetic">Energetic</button>
-    <button type="button" data-trait="Loyal">Loyal</button>
-    <button type="button" data-trait="Social">Social</button>
+<div class="checkbox-group">
+    <label><input type="checkbox" value="friendly"> Friendly</label>
+    <label><input type="checkbox" value="playful"> Playful</label>
+    <label><input type="checkbox" value="energetic"> Energetic</label>
+</div>
+
+<div class="checkbox-group">
+    <label><input type="checkbox" value="calm"> Calm</label>
+    <label><input type="checkbox" value="alert"> Alert</label>
+    <label><input type="checkbox" value="confident"> Confident</label>
 </div>
 
 <ul id="dog-list" class="dog-list"></ul>
 
+<div id="dog-details" class="dog-details"></div>
+
 <script>
-    const temperamentButtons = document.querySelectorAll('.temperament-buttons button');
-    const traitsButtons = document.querySelectorAll('.traits-buttons button');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     const dogListElement = document.getElementById('dog-list');
+    const dogDetailsElement = document.getElementById('dog-details');
 
-    temperamentButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('selected');
-        const selectedTemperaments = getSelectedTemperaments();
-        const selectedTraits = getSelectedTraits();
-        searchDogs(selectedTemperaments, selectedTraits);
+
+    fetch('/api/skills')
+  .then(response => response.json())
+  .then(skills => {
+    displaySkills(skills);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+// Function to display the skills
+function displaySkills(skills) {
+  skills.forEach(skill => {
+    const skillButton = createSkillButton(skill);
+    dogsContainer.appendChild(skillButton);
+  });
+}
+
+// Function to create a skill button element
+function createSkillButton(skill) {
+  const skillButton = document.createElement('button');
+  skillButton.textContent = skill.name;
+  skillButton.addEventListener('click', () => {
+    fetchDogsBySkill(skill.id);
+  });
+  return skillButton;
+}
+
+// Function to fetch dogs by skill
+function fetchDogsBySkill(skillId) {
+  fetch(`/api/skills/${skillId}`)
+    .then(response => response.json())
+    .then(skill => {
+      const dogs = skill.dogs;
+      displayDogs(dogs);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+// Function to display the dogs
+function displayDogs(dogs) {
+  dogsContainer.innerHTML = '';
+
+  dogs.forEach(dog => {
+    const dogCard = createDogCard(dog);
+    dogsContainer.appendChild(dogCard);
+  });
+}
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        generateDogBreeds();
       });
     });
 
-    traitsButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('selected');
-        const selectedTemperaments = getSelectedTemperaments();
-        const selectedTraits = getSelectedTraits();
-        searchDogs(selectedTemperaments, selectedTraits);
-      });
-    });
+    function generateDogBreeds() {
+      // Get the selected skills, traits, and temperament
+      const selectedSkills = getSelectedValues('input[value^="skill"]');
+      const selectedTraits = getSelectedValues('input[value^="trait"]');
+      const selectedTemperaments = getSelectedValues('input[value^="temperament"]');
 
-    function getSelectedTemperaments() {
-      const selectedTemperaments = [];
-      temperamentButtons.forEach(button => {
-        if (button.classList.contains('selected')) {
-          selectedTemperaments.push(button.dataset.temperament);
-        }
-      });
-      return selectedTemperaments;
-    }
 
-    function getSelectedTraits() {
-      const selectedTraits = [];
-      traitsButtons.forEach(button => {
-        if (button.classList.contains('selected')) {
-          selectedTraits.push(button.dataset.trait);
-        }
-      });
-      return selectedTraits;
-    }
-
-    function searchDogs(selectedTemperaments, selectedTraits) {
-      // Clear previous dog list
       dogListElement.innerHTML = '';
+      dogDetailsElement.innerHTML = '';
 
-      // Get the data entered by the user
-      const userTemperaments = selectedTemperaments.join(',').toLowerCase();
-      const userTraits = selectedTraits.join(',').toLowerCase();
-
-      fetch(`https://api.thedogapi.com/v1/breeds`)
+      // Fetch dog breeds from the API
+      fetch('https://api.thedogapi.com/v1/breeds')
         .then(response => response.json())
-        .then(dogs => {
-          // Filter dogs based on user-selected temperaments and traits
-          const filteredDogs = dogs.filter(dog => {
-            const dogTemperaments = dog.temperament ? dog.temperament.toLowerCase() : '';
-            const dogTraits = dog.bred_for ? dog.bred_for.toLowerCase() : '';
+        .then(dogBreeds => {
+          // Filter dog breeds based on the selected skills, traits, and temperament
+          const filteredDogBreeds = dogBreeds.filter(dogBreed => {
+            const dogSkills = dogBreed.skills || [];
+            const dogTraits = dogBreed.traits || [];
+            const dogTemperament = dogBreed.temperament || [];
 
-            // Check if the dog's temperaments and traits match the user-selected ones
-            return selectedTemperaments.every(temperament => dogTemperaments.includes(temperament.toLowerCase())) &&
-              selectedTraits.every(trait => dogTraits.includes(trait.toLowerCase()));
+            // Check if the dog breed has all the selected skills, traits, and temperament
+            return (
+              selectedSkills.every(skill => dogSkills.includes(skill)) &&
+              selectedTraits.every(trait => dogTraits.includes(trait)) &&
+              selectedTemperaments.every(temp => dogTemperament.includes(temp))
+            );
           });
 
-          // Display dog list
-          if (filteredDogs.length === 0) {
-            dogListElement.textContent = 'No dogs found with the specified temperament and traits.';
+          // Display dog breeds
+          if (filteredDogBreeds.length === 0) {
+            dogListElement.textContent = 'No dog breeds found with the specified skills, traits, and temperament.';
             return;
           }
 
-          filteredDogs.forEach(dog => {
+          filteredDogBreeds.forEach(dogBreed => {
             const dogItem = document.createElement('li');
             dogItem.className = 'dog-item';
 
             const image = document.createElement('img');
-            image.src = dog.image.url;
-            image.alt = 'Dog Image';
+            image.src = dogBreed.image.url;
+            image.alt = 'Dog Breed Image';
             dogItem.appendChild(image);
 
             const name = document.createElement('p');
-            name.textContent = `Breed: ${dog.name}`;
+            name.textContent = `Breed: ${dogBreed.name}`;
             dogItem.appendChild(name);
+
+            dogItem.addEventListener('click', () => {
+              showDogDetails(dogBreed);
+            });
 
             dogListElement.appendChild(dogItem);
           });
@@ -159,6 +211,34 @@
         .catch(error => {
           console.error('Error:', error);
         });
+    }
+
+    function showDogDetails(dogBreed) {
+      // Clear previous dog details
+      dogDetailsElement.innerHTML = '';
+
+      const details = document.createElement('div');
+      details.innerHTML = `
+        <h2>${dogBreed.name}</h2>
+        <p>Origin: ${dogBreed.origin}</p>
+        <p>Life Span: ${dogBreed.life_span}</p>
+        <p>Bred For: ${dogBreed.bred_for}</p>
+        <p>Temperament: ${dogBreed.temperament.join(', ')}</p>
+        <p>Height: ${dogBreed.height.metric} cm</p>
+        <p>Weight: ${dogBreed.weight.metric} kg</p>
+      `;
+
+      dogDetailsElement.appendChild(details);
+    }
+
+    function getSelectedValues(selector) {
+      const selectedValues = [];
+      document.querySelectorAll(selector).forEach(checkbox => {
+        if (checkbox.checked) {
+          selectedValues.push(checkbox.value);
+        }
+      });
+      return selectedValues;
     }
   </script>
 </body>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Dog Information</title>
+    <style>
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="dog.html">Dog Breeds</a>
+    <a href="skills.html">Find Dogs By Skills And Temperament</a>
+    <a href="dogInformation.html">Submit And Add Information About Dogs</a>
+    <a href="resources.html">Resources</a>
+    <a href="contacts.html">Contacts</a>
+</div>
+
+<body>
+<h1>Dog Information</h1>
+
+<form id="dogForm">
+    <label for="dogImage">Upload Image:</label>
+    <input type="file" id="dogImage" accept="image/*" required>
+
+    <label for="dogName">Name:</label>
+    <input type="text" id="dogName" required>
+
+    <label for="dogTraits">Traits:</label>
+    <textarea id="dogTraits" rows="4" required></textarea>
+
+    <label for="dogSkillSets">Skill Sets:</label>
+    <textarea id="dogSkillSets" rows="4" required></textarea>
+
+    <label for="dogTemperament">Temperament:</label>
+    <textarea id="dogTemperament" rows="4" required></textarea>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('dogForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get the form data
+      const dogImage = document.getElementById('dogImage').files[0];
+      const dogName = document.getElementById('dogName').value;
+      const dogTraits = document.getElementById('dogTraits').value;
+      const dogSkillSets = document.getElementById('dogSkillSets').value;
+      const dogTemperament = document.getElementById('dogTemperament').value;
+
+      // Create a FormData object and append the form data
+      const formData = new FormData();
+      formData.append('dogImage', dogImage);
+      formData.append('dogName', dogName);
+      formData.append('dogTraits', dogTraits);
+      formData.append('dogSkillSets', dogSkillSets);
+      formData.append('dogTemperament', dogTemperament);
+
+      // Send the form data to the server
+      fetch('/api/dogs', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(createdDog => {
+          // Do something with the created dog
+          console.log(createdDog);
+          alert('Dog information submitted successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while submitting the dog information.');
+        });
+    });
+  </script>
+</body>

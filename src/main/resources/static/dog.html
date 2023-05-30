@@ -28,8 +28,9 @@
 
 <div class="navbar">
     <a href="index.html">Home</a>
-    <a href="dog.html">Dogs</a>
-    <a href="skills.html">Skills And Traits</a>
+    <a href="dog.html">Dog Breeds</a>
+    <a href="skills.html">Find Dogs By Skills And Temperament</a>
+    <a href="dogInformation.html">Submit And Add Information About Dogs</a>
     <a href="resources.html">Resources</a>
     <a href="contacts.html">Contacts</a>
 </div>
@@ -39,14 +40,73 @@
 
 <div id="breed-list"></div>
 
-
 <ul id="breed-list" class="breed-list"></ul>
 
 <div id="breed-details" class="breed-details"></div>
+<div id="dogs-container"></div>
+
+<script src="script.js"></script>
+
 
 <script>
+
+    const dogsContainer = document.getElementById('dogs-container');
     const breedListElement = document.getElementById('breed-list');
     const breedDetailsElement = document.getElementById('breed-details');
+
+    fetch('/api/dogs')
+  .then(response => response.json())
+  .then(dogs => {
+    displayDogs(dogs);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+  function displayDogs(dogs) {
+  dogsContainer.innerHTML = '';
+
+  dogs.forEach(dog => {
+    const dogCard = createDogCard(dog);
+    dogsContainer.appendChild(dogCard);
+  });
+
+  const newDog = {
+  name: 'Buddy',
+  breed: 'Labrador Retriever',
+  age: 3
+};
+
+fetch('/api/dogs', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(newDog)
+})
+  .then(response => response.json())
+  .then(createdDog => {
+    // Do something with the created dog
+    console.log(createdDog);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+// Fetch a dog by ID
+const dogId = 1;
+
+fetch(`/api/dogs/${dogId}`)
+  .then(response => response.json())
+  .then(dog => {
+    // Do something with the fetched dog
+    console.log(dog);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
 
     function showBreedDetails(breed) {
       fetch(`https://api.thedogapi.com/v1/images/search?breed_id=${breed.id}`)
