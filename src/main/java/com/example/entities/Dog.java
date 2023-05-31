@@ -1,4 +1,4 @@
-package entities;
+package com.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

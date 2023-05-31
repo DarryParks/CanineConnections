@@ -1,12 +1,12 @@
-package restControllers;
+package com.example.restControllers;
 
-import entities.Dog;
-import entities.Skills;
+import com.example.entities.Dog;
+import com.example.entities.Skills;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import repositories.DogRepository;
-import repositories.SkillsRepository;
+import com.example.repositories.DogRepository;
+import com.example.repositories.SkillsRepository;
 
 import java.util.Optional;
 @RestController

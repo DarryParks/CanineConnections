@@ -1,6 +1,6 @@
-package repositories;
+package com.example.repositories;
 
-import entities.Dog;
+import com.example.entities.Dog;
 import org.springframework.data.repository.CrudRepository;
 
 

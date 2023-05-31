@@ -1,6 +1,6 @@
-package repositories;
+package com.example.repositories;
 
-import entities.Skills;
+import com.example.entities.Skills;
 import org.springframework.data.repository.CrudRepository;
 
 
