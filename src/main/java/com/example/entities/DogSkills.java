@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 @Entity
-public class Skills {
+public class DogSkills {
 
 
     @Id
@@ -22,18 +22,18 @@ public class Skills {
 
     @ManyToOne
     @JoinColumn(name = "dog_id")
-    public Dog skills;
+    public String skills;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "dogSkills")
-    public Collection<Dog> dogCollection = new HashSet<>();
+    public Collection<DogSkills> dogSkills = new HashSet<>();
 
-    public Skills(Long id, String name, String description, Dog skills) {
-
+    public DogSkills(Long id, String name, String description, String skills) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.skills = skills;
+
     }
 
     public Long getId() {
@@ -60,15 +60,12 @@ public class Skills {
         this.description = description;
     }
 
-    public Collection<Dog> getDogCollection() {
-        return dogCollection;
+    public Collection<DogSkills> dogSkills() {
+        return dogSkills;
     }
 
-    public void setDogCollection(Collection<Dog> dogCollection) {
-        this.dogCollection = dogCollection;
-    }
 
-    public void setSkills(Dog skills) {
-        this.skills = skills;
+    public void setSkills(Dog dog) {
+     this.dogSkills = dogSkills;
     }
 }

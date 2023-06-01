@@ -61,7 +61,7 @@
 <div class="navbar">
     <a href="index.html">Home</a>
     <a href="dog.html">Dog Breeds</a>
-    <a href="skills.html">Find Dogs By Skills And Temperament</a>
+    <a href="dogSkills.html">Find Dogs By Skills And Temperament</a>
     <a href="dogInformation.html">Submit And Add Information About Dogs</a>
     <a href="resources.html">Resources</a>
     <a href="contacts.html">Contacts</a>
@@ -98,39 +98,39 @@
     const dogDetailsElement = document.getElementById('dog-details');
 
 
-    fetch('/api/skills')
+    fetch('/api/dogSkills')
   .then(response => response.json())
-  .then(skills => {
-    displaySkills(skills);
+  .then(dogSkills => {
+    displaySkills(dogSkills);
   })
   .catch(error => {
     console.error('Error:', error);
   });
 
-// Function to display the skills
-function displaySkills(skills) {
-  skills.forEach(skill => {
-    const skillButton = createSkillButton(skill);
+// Function to display the dogSkills
+function displaySkills(dogSkills) {
+  dogSkills.forEach(dogSkills => {
+    const skillButton = createSkillButton(dogSkills);
     dogsContainer.appendChild(skillButton);
   });
 }
 
-// Function to create a skill button element
-function createSkillButton(skill) {
+// Function to create a dogSkills button element
+function createSkillButton(dogSkills) {
   const skillButton = document.createElement('button');
-  skillButton.textContent = skill.name;
+  skillButton.textContent = dogSkills.name;
   skillButton.addEventListener('click', () => {
-    fetchDogsBySkill(skill.id);
+    fetchDogsBySkill(dogSkills.id);
   });
   return skillButton;
 }
 
-// Function to fetch dogs by skill
+// Function to fetch dogs by dogSkills
 function fetchDogsBySkill(skillId) {
-  fetch(`/api/skills/${skillId}`)
+  fetch(`/api/dogSkills/${skillId}`)
     .then(response => response.json())
-    .then(skill => {
-      const dogs = skill.dogs;
+    .then(dogSkills => {
+      const dogs = dogSkills.dogs;
       displayDogs(dogs);
     })
     .catch(error => {
@@ -155,8 +155,8 @@ function displayDogs(dogs) {
     });
 
     function generateDogBreeds() {
-      // Get the selected skills, traits, and temperament
-      const selectedSkills = getSelectedValues('input[value^="skill"]');
+      // Get the selected dogSkills, traits, and temperament
+      const selectedSkills = getSelectedValues('input[value^="dogSkills"]');
       const selectedTraits = getSelectedValues('input[value^="trait"]');
       const selectedTemperaments = getSelectedValues('input[value^="temperament"]');
 
@@ -168,15 +168,15 @@ function displayDogs(dogs) {
       fetch('https://api.thedogapi.com/v1/breeds')
         .then(response => response.json())
         .then(dogBreeds => {
-          // Filter dog breeds based on the selected skills, traits, and temperament
+          // Filter dog breeds based on the selected dogSkills, traits, and temperament
           const filteredDogBreeds = dogBreeds.filter(dogBreed => {
-            const dogSkills = dogBreed.skills || [];
+            const dogSkills = dogBreed.dogSkills || [];
             const dogTraits = dogBreed.traits || [];
             const dogTemperament = dogBreed.temperament || [];
 
-            // Check if the dog breed has all the selected skills, traits, and temperament
+            // Check if the dog breed has all the selected dogSkills, traits, and temperament
             return (
-              selectedSkills.every(skill => dogSkills.includes(skill)) &&
+              selectedSkills.every(dogSkills => dogSkills.includes(dogSkills)) &&
               selectedTraits.every(trait => dogTraits.includes(trait)) &&
               selectedTemperaments.every(temp => dogTemperament.includes(temp))
             );
@@ -184,7 +184,7 @@ function displayDogs(dogs) {
 
           // Display dog breeds
           if (filteredDogBreeds.length === 0) {
-            dogListElement.textContent = 'No dog breeds found with the specified skills, traits, and temperament.';
+            dogListElement.textContent = 'No dog breeds found with the specified dogSkills, traits, and temperament.';
             return;
           }
 

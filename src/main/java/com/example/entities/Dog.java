@@ -7,33 +7,32 @@ import org.springframework.data.annotation.Id;
 import java.util.Collection;
 import java.util.HashSet;
 
+
 @Entity
 public class Dog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
-    public String name;
-
-    @Lob
-    @Column(length = 1000000)
-    public String description;
+    private String name;
 
     @Lob
     @Column(length = 1000000)
-    public String skills;
+    private String description;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "dogCollection")
-    public Collection<Skills> dogSkills = new HashSet<>();
+    @ManyToMany(mappedBy = "dogs")
+    private Collection<Dog> dogs = new HashSet<>();
 
-    public Dog(Long id, String name, String description, String skills) {
-        this.id = id;
+    public Dog() {
+    }
+
+    public Dog(String name, String description) {
         this.name = name;
         this.description = description;
-        this.skills = skills;
     }
+
 
 
     public Long getId() {
@@ -60,11 +59,11 @@ public class Dog {
         this.description = description;
     }
 
-    public Collection<Skills> getDogSkills() {
-        return dogSkills;
+    public Collection<Dog> getDog() {
+        return dogs;
     }
 
-    public void setDogSkills(Collection<Skills> dogSkills) {
-        this.dogSkills = dogSkills;
+    public void setDog(Collection<Dog> dogSkills) {
+        this.dogs = dogSkills;
     }
 }
