@@ -23,7 +23,7 @@ public class Skills {
     @JsonIgnore
     private Dog dog;
 
-    // Mapping the many-to-many relationship between Skills and Dog
+
     @ManyToMany(mappedBy = "skills")
     private Collection<Dog> dogCollection = new HashSet<>();
 
@@ -35,7 +35,7 @@ public class Skills {
         this.description = description;
     }
 
-    // Getters and setters
+
 
     public Long getId() {
         return id;

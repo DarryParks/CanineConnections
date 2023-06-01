@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 @Entity
-public class Dog<Skills> {
+public class Dog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Dog<Skills> {
         this.description = description;
     }
 
-    // Getters and setters
+   
 
     public Long getId() {
         return id;
