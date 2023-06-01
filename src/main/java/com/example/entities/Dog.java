@@ -1,4 +1,5 @@
 package com.example.entities;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
@@ -11,27 +12,29 @@ public class Dog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
-    private String name;
+    public String name;
 
     @Lob
     @Column(length = 1000000)
-    private String description;
+    public String description;
+
+    @Lob
+    @Column(length = 1000000)
+    public String skills;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "dogCollection")
-    private Collection<Skills> dogSkills = new HashSet<>();
+    public Collection<Skills> dogSkills = new HashSet<>();
 
-    public Dog() {
-    }
-
-    public Dog(String name, String description) {
+    public Dog(Long id, String name, String description, String skills) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.skills = skills;
     }
 
-   
 
     public Long getId() {
         return id;

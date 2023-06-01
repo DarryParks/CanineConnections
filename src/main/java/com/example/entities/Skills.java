@@ -2,40 +2,39 @@ package com.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.util.Collection;
 import java.util.HashSet;
 
 @Entity
 public class Skills {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
-    private String name;
+    public String name;
 
     @Lob
     @Column(length = 1000000)
-    private String description;
+    public String description;
 
     @ManyToOne
     @JoinColumn(name = "dog_id")
+    public Dog skills;
+
     @JsonIgnore
-    private Dog dog;
+    @ManyToMany(mappedBy = "dogSkills")
+    public Collection<Dog> dogCollection = new HashSet<>();
 
+    public Skills(Long id, String name, String description, Dog skills) {
 
-    @ManyToMany(mappedBy = "skills")
-    private Collection<Dog> dogCollection = new HashSet<>();
-
-    public Skills() {
-    }
-
-    public Skills(String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.skills = skills;
     }
-
-
 
     public Long getId() {
         return id;
@@ -61,14 +60,6 @@ public class Skills {
         this.description = description;
     }
 
-    public Dog getDog() {
-        return dog;
-    }
-
-    public void setDog(Dog dog) {
-        this.dog = dog;
-    }
-
     public Collection<Dog> getDogCollection() {
         return dogCollection;
     }
@@ -77,7 +68,7 @@ public class Skills {
         this.dogCollection = dogCollection;
     }
 
-    public void setSkills(Dog dog) {
-
+    public void setSkills(Dog skills) {
+        this.skills = skills;
     }
 }
