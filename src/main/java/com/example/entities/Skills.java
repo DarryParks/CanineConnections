@@ -2,43 +2,40 @@ package com.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.util.Collection;
 import java.util.HashSet;
-
 
 @Entity
 public class Skills {
 
     @Id
-    @GeneratedValue()
-    public Long id;
-    public String name;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
 
     @Lob
     @Column(length = 1000000)
-    public String description;
+    private String description;
 
-    @Lob
-    @Column(length = 1000000)
-    public Dog skills;
+    @ManyToOne
+    @JoinColumn(name = "dog_id")
     @JsonIgnore
-    @ManyToMany
-    @JoinTable
-    public Collection<Dog> dogCollection = new HashSet<>();
+    private Dog dog;
 
-//    public Skills() {
-//
-//    }
+    // Mapping the many-to-many relationship between Skills and Dog
+    @ManyToMany(mappedBy = "skills")
+    private Collection<Dog> dogCollection = new HashSet<>();
 
+    public Skills() {
+    }
 
-    public Skills(Long id, String name, String description, String skills) {
-        this.id = id;
+    public Skills(String name, String description) {
         this.name = name;
         this.description = description;
-
-
     }
+
+    // Getters and setters
 
     public Long getId() {
         return id;
@@ -64,6 +61,14 @@ public class Skills {
         this.description = description;
     }
 
+    public Dog getDog() {
+        return dog;
+    }
+
+    public void setDog(Dog dog) {
+        this.dog = dog;
+    }
+
     public Collection<Dog> getDogCollection() {
         return dogCollection;
     }
@@ -72,15 +77,7 @@ public class Skills {
         this.dogCollection = dogCollection;
     }
 
-    public void setSkills(Dog skills) {
-        this.skills = skills;
+    public void setSkills(Dog dog) {
+
     }
-
-
-
-
-//    @Override
-//    public String toString() {
-//        return "Skill [id=" + id + ", name=" + name + "]";
-//    }
 }
